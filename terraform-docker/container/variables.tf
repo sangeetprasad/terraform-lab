@@ -18,4 +18,4 @@ variable "container_path_in" {
   description = "val for cont path"
 }
 
-
+variable "count_in" {}
