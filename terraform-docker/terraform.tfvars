@@ -1,10 +1,10 @@
 ext_port = {
   nodered = {
-    dev  = [1990]
+    dev  = [1990,1991]
     prod = [1880]
   }
   influxdb = {
-    dev  = [8186]
+    dev  = [8186,8187]
     prod = [8086]
   }
   grafana = {
