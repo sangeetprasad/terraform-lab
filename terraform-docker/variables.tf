@@ -11,6 +11,11 @@ variable "image" {
       dev  = "quay.io/influxdb/influxdb:v2.0.2",
       prod = "quay.io/influxdb/influxdb:v2.0.2"
     }
+
+    grafana = {
+      dev  = "grafana/grafana:latest",
+      prod = "grafana/grafana:latest"
+    }
   }
 }
 variable "container_count" {
