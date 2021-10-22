@@ -7,7 +7,7 @@ variable "image" {
   }
 }
 variable "container_count" {
-  default = 1
+  default = 4
 }
 
 variable "ext_port" {
