@@ -25,7 +25,7 @@ locals {
       ext             = var.ext_port["grafana"][terraform.workspace]
       volumes = [
         { container_path_each = "/var/lib/grafana" },
-        { container_path_each = "/etc//grafana" }
+        { container_path_each = "/etc/grafana" }
       ]
     }
   }
