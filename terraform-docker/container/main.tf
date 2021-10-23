@@ -8,11 +8,14 @@ resource "docker_container" "container" {
     external = var.ext_port_in[count.index]
   }
 
-  volumes {
-    container_path = var.container_path_in
-    volume_name    = docker_volume.volume[count.index].name
-  }
+  dynamic "volumes" {
 
+    for_each = var.volumes_in
+    content {
+      container_path = volumes.value["container_path_each"]
+      volume_name    = module.volume[count.index].volume_output[volumes.key]
+    }
+  }
 
   provisioner "local-exec" {
     command    = "echo  ${self.name}: ${self.ip_address}:${self.ports[0].external} >> ${path.cwd}/../container.txt"
@@ -24,29 +27,16 @@ resource "docker_container" "container" {
     command    = "rm -f ${path.cwd}/../container.txt"
     on_failure = continue
   }
+
 }
 
-resource "docker_volume" "volume" {
-  count = var.count_in
-  name  = join("-", [var.name_in, terraform.workspace, random_string.random[count.index].result, "volume"])
 
-  lifecycle {
-    prevent_destroy = false
-  }
-
-  provisioner "local-exec" {
-    when       = destroy
-    command    = "mkdir ${path.cwd}/../backup/"
-    on_failure = continue
-  }
-
-  provisioner "local-exec" {
-    when       = destroy
-    command    = "sudo tar -czvf ${path.cwd}/../backup/${self.name}.tar.gz ${self.mountpoint}/"
-    on_failure = fail
-  }
+module "volume" {
+  source           = "./volume"
+  count            = var.count_in
+  volume_count_int = length(var.volumes_in)
+  volume_name_in   = join("-", [var.name_in, terraform.workspace, random_string.random[count.index].result, "volume"])
 }
-
 
 resource "random_string" "random" {
   count   = var.count_in
