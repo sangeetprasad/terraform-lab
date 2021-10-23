@@ -12,7 +12,7 @@ locals {
     influxdb = {
       container_count = length(var.ext_port["influxdb"][terraform.workspace])
       image           = var.image["influxdb"][terraform.workspace]
-      int             = 1886
+      int             = 8086
       ext             = var.ext_port["influxdb"][terraform.workspace]
       volumes = [
         { container_path_each = "/var/lib/influxdb" }
