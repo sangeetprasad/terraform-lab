@@ -15,7 +15,7 @@ resource "aws_lb" "mtc_lb" {
 resource "aws_lb_target_group" "mtc_tg" {
   name = "mtc-tg-${substr(uuid(), 0, 3)}"
   lifecycle {
-    ignore_changes = [name]
+    ignore_changes        = [name]
     create_before_destroy = true
   }
   port     = var.tg_port
